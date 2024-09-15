@@ -5,20 +5,28 @@
 #include <stdlib.h>
 
 int main(){
-    
+    //Initializes 23 char letter variables.
     char letter1, letter2, letter3, letter4, letter5, 
     letter6, letter7, letter8, letter9, letter10,
     letter11, letter12, letter13, letter14, letter15,
     letter16, letter17, letter18, letter19, letter20,
     letter21, letter22, letter23;
+
+    //Creates file pointer message.
+    //Then it opens and reads the file "clearMessage.txt".
+    //If file pointer message returns as a NULL, it will print a message
+    //saying theres a "Error in opening file" and return the value 1.
     FILE *message;
     message = fopen("clearMessage.txt", "r");
     if (message == NULL){
-        printf("Error in opening file!\n");
+        printf("Error in opening file.\n");
         return 1;
-        exit(1);
     }
 
+    //Each char letter variable will then read an individual character (up to 23 characters)
+    //from the message contained in the "clearMessage.txt" file.
+    //Each variable will corrispond to an individual character that makes up the message
+    //in the file.
     letter1 = fgetc(message);
     letter2 = fgetc(message);
     letter3 = fgetc(message);
@@ -43,7 +51,17 @@ int main(){
     letter22 = fgetc(message);
     letter23 = fgetc(message);
 
-
+    //Each char letter variable's characcter is then converted into their 
+    //repective ASCII int value and assigned to a letter#NumEquivalent int variable.
+    //Each letter#NumEquivalent is then compared to determine whetehr they are a
+    //value representing the alaphabet or some other character.
+    //If the letter#NumEquivalent is between the value of 65-90(A-Z) or 97-122(a-z),
+    //then the letter#NumEquivalent is shifted to the right through adding 3 to its repective value.
+    //If the letter#NumEquivalent is not within these parameters, then letter#NumEquivalent is left
+    //unaltered. (It is not a letter of alpahbet.)
+    //Finally, each letter#NumEquivalent is then returned to a character based on their ASCII
+    //decimal value and assined to their respective encryptedLetter char variable.
+    //This proscess adds the shift by 3, ceaser cypher to the message.
     int letter1NumEquivalent = (int)letter1;
     if ((letter1NumEquivalent >= 65 && letter1NumEquivalent <= 90) || 
     (letter1NumEquivalent >= 97 && letter1NumEquivalent <=122)){
@@ -205,13 +223,20 @@ int main(){
     }
     char encryptedLetter23 = (char)letter23NumEquivalent;
 
-
+    //Creates file pointer encryptedMessage.
+    //Then opens a file by the name of "secretMessage.txt" to write in.
+    //If the pointer is NULL then it prints the message "Error in new message."
+    //and returns the value 1.
+    //Then it writes the encrypted message of the clearMessage file
+    //through compiling all the encrypted letters together in 
+    //order to form the new encrypted message.
+    //It then closses the file of "secretMessage.txt" and then closes the file for
+    //"clearMessage.txt".
     FILE *encryptedMessage;
     encryptedMessage = fopen("secretMessage.text","w");
     if(encryptedMessage == NULL){
         printf("Error in new message.\n");
         return 1;
-        exit (1);
     }
     fprintf(encryptedMessage, 
     "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c",
