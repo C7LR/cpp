@@ -51,7 +51,7 @@ int main(){
     letter22 = fgetc(message);
     letter23 = fgetc(message);
 
-    //Each char letter variable's characcter is then converted into their 
+    //Each char letter variable's character is then converted into their 
     //repective ASCII int value and assigned to a letter#NumEquivalent int variable.
     //Each letter#NumEquivalent is then compared to determine whetehr they are a
     //value representing the alaphabet or some other character.
@@ -60,8 +60,8 @@ int main(){
     //If the letter#NumEquivalent is not within these parameters, then letter#NumEquivalent is left
     //unaltered. (It is not a letter of alpahbet.)
     //Finally, each letter#NumEquivalent is then returned to a character based on their ASCII
-    //decimal value and assined to their respective encryptedLetter char variable.
-    //This proscess adds the shift by 3, ceaser cypher to the message.
+    //decimal value and assigned to their respective encryptedLetter char variable.
+    //This process adds the shift by 3, ceaser cypher to the message.
     int letter1NumEquivalent = (int)letter1;
     if ((letter1NumEquivalent >= 65 && letter1NumEquivalent <= 90) || 
     (letter1NumEquivalent >= 97 && letter1NumEquivalent <=122)){
