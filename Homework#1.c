@@ -49,44 +49,64 @@ int main(){
             printf("Optional tests are allowed\n");
             int numOpTest;
             fscanf(fileContents,"%d", &numOpTest);
-            printf("Minimum number of optional tests to pass: %d\n", numOpTest);
-        } else printf("Optional tests are NOT allowed\n");
+            printf("Minimum number of optional tests to pass: %d\n\n", numOpTest);
+        } else printf("Optional tests are NOT allowed\n\n");
         
+
+
         char newLineSkip;
         newLineSkip=fgetc(fileContents);
         char newLineSkip2;
         newLineSkip2=fgetc(fileContents);
 
-        char password[60];
-        while ((fgets(password, 50, fileContents)!=NULL)){
-            if (password == "\n"){
-                continue;
 
-            }else printf("Potential password: %s",password);
-            int passed;
-            int failed;
-            if ((allowOpTest!=true)&&(allowPasPhrases!=true)){
-                if (strlen(password) > maxLimit){
-                    printf("The password must be fewer than %d characters.", maxLimit);
-                    failed+=1;
-                }else passed+=1;
 
-                if (strlen(password) < minLimit){
-                    printf("The password must be at least %d characters long.", minLimit);
-                    failed+=1;
-                }else passed+=1;
 
-                
+        char password[100];
+        while ((fgets(password, 80, fileContents)!=NULL)){
+            printf("Potential password: %s",password);
+            if (password[strlen(password)-1]!='\n'){
+                printf("\n");
+            }
+            int passed = 0;
+            int failed = 0;
+            if (strlen(password) > maxLimit){
+                printf("The password must be fewer than %d characters.\n", maxLimit);
+                failed+=1;
+            }else passed+=1;
+
+            if (strlen(password) < minLimit){
+                printf("The password must be at least %d characters long.\n", minLimit);
+                failed+=1;
+            }else passed+=1;
+
+            int passLenght = strlen(password);
+            bool repeatedSeq = false;
+            for (int w = 0; w<passLenght; w++){
+                char letter = password[w];
+                if(w < passLenght){
+                    if ((letter == password[w+1])&&(letter == password[w+2])){
+                        printf("The password may not contain sequence of three or more repreated characters.\n");
+                        failed+=1;
+                        repeatedSeq = true;
+                        break;
+                    }
+                }
+            }
+            if(repeatedSeq == false){
+                passed+=1;
             }
 
 
-            
+            printf("Failed Tests   :%d\n",failed);
+            printf("Passed Tests   :%d\n",passed);
+            if ((allowPasPhrases != true) && (allowOpTest != true)){
+                if(failed > 0){
+                printf("Password failed - it cannot be used.\n\n");
+                }else printf("Password passed - it is strong.\n\n");
+            }
         }
-
-
         fclose(fileContents);
-
     }
-
     return(0);
 }
