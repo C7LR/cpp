@@ -26,15 +26,17 @@ int main(){
             return(1);
         }else printf("Processing password file #%d\n\n",fileNumber++);
 
+        bool allowOpTest = true;
+        bool allowPasPhrases = true;
         int maxLimit;
+        int minLimit;
+
         fscanf(fileContents,"%d",&maxLimit);
         printf("Maximum password lenght: %d\n",maxLimit);
 
-        int minLimit;
         fscanf(fileContents,"%d",&minLimit);
         printf("Minimum password lenght: %d\n",minLimit);
 
-        bool allowPasPhrases = true;
         fscanf(fileContents,"%d",&allowPasPhrases);
         if (allowPasPhrases == true){
             printf("Pass pharases are allowed\n");
@@ -43,7 +45,6 @@ int main(){
             printf("Minimum phrase lenght: %d\n", minlenght);
         } else printf("Pass pharases are NOT allowed\n");
 
-        bool allowOpTest = true;
         fscanf(fileContents,"%d",&allowOpTest);
         if (allowOpTest == true){
             printf("Optional tests are allowed\n");
@@ -52,13 +53,14 @@ int main(){
             printf("Minimum number of optional tests to pass: %d\n\n", numOpTest);
         } else printf("Optional tests are NOT allowed\n\n");
         
+        
 
 
         char newLineSkip;
         newLineSkip=fgetc(fileContents);
         char newLineSkip2;
         newLineSkip2=fgetc(fileContents);
-
+        
 
 
 
@@ -70,23 +72,30 @@ int main(){
             }
             int passed = 0;
             int failed = 0;
-            if (strlen(password) > maxLimit){
-                printf("The password must be fewer than %d characters.\n", maxLimit);
-                failed+=1;
-            }else passed+=1;
-
-            if (strlen(password) < minLimit){
-                printf("The password must be at least %d characters long.\n", minLimit);
-                failed+=1;
-            }else passed+=1;
-
+            bool reqTest1=true;
+            bool reqTest2=true;
+            bool reqTest3=true;
+            bool reqTest4=true;
             int passLenght = strlen(password);
+
+            if (passLenght > maxLimit){
+                reqTest1 = false;
+                failed+=1;
+            }else passed+=1;
+
+            bool isPassPhrase = false;
+            if (passLenght < minLimit){
+                reqTest2 = false;
+                failed+=1;
+                isPassPhrase = true;
+            }else passed+=1;
+            
             bool repeatedSeq = false;
             for (int w = 0; w<passLenght; w++){
                 char letter = password[w];
                 if(w < passLenght){
                     if ((letter == password[w+1])&&(letter == password[w+2])){
-                        printf("The password may not contain sequence of three or more repreated characters.\n");
+                        reqTest3 = false;
                         failed+=1;
                         repeatedSeq = true;
                         break;
@@ -98,13 +107,35 @@ int main(){
             }
 
 
+            //optionaltestlocation
+
+
             printf("Failed Tests   :%d\n",failed);
             printf("Passed Tests   :%d\n",passed);
-            if ((allowPasPhrases != true) && (allowOpTest != true)){
-                if(failed > 0){
-                printf("Password failed - it cannot be used.\n\n");
-                }else printf("Password passed - it is strong.\n\n");
+
+
+            if (reqTest1 == false){
+                printf("The password must be fewer than %d characters.\n",maxLimit);
             }
+            if(reqTest2 == false){
+                printf("The password must be at least %d characters long.\n",minLimit);
+            }
+            if(reqTest3 == false){
+                printf("The password may not contain sequence of three or more repeated characters.\n");
+            }
+            if(reqTest4 == false){
+                printf("The password must contain letters, numbers, and symbols.");
+            }
+
+            if(isPassPhrase == true){
+                printf("Is a Pass phrase      :True\n");
+            }else printf("Is a Pass phrase      :False\n");
+            
+            if((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)){
+                printf("Strong?               :True\n");
+            }else printf("Strong?               :False\n");
+
+            
         }
         fclose(fileContents);
     }

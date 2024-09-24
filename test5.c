@@ -2,7 +2,11 @@
 #include <string.h>
 
 int main(){
-    char password[50]= "New eeVegas is supreme";
+    char password[50]= "x1";
+
+            if (strlen(password) < 10){
+                printf("Solved");
+            }else printf("issue");
     
     int passLenght = strlen(password);
     int wcounter;
