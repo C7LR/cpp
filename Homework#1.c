@@ -30,6 +30,7 @@ int main(){
         bool allowPasPhrases = true;
         int maxLimit;
         int minLimit;
+        int minPhraselnght;
 
         fscanf(fileContents,"%d",&maxLimit);
         printf("Maximum password lenght: %d\n",maxLimit);
@@ -40,15 +41,14 @@ int main(){
         fscanf(fileContents,"%d",&allowPasPhrases);
         if (allowPasPhrases == true){
             printf("Pass pharases are allowed\n");
-            int minlenght;
-            fscanf(fileContents,"%d",&minlenght);
-            printf("Minimum phrase lenght: %d\n", minlenght);
+            fscanf(fileContents,"%d",&minPhraselnght);
+            printf("Minimum phrase lenght: %d\n", minPhraselnght);
         } else printf("Pass pharases are NOT allowed\n");
-
+        
+        int numOpTest;
         fscanf(fileContents,"%d",&allowOpTest);
         if (allowOpTest == true){
             printf("Optional tests are allowed\n");
-            int numOpTest;
             fscanf(fileContents,"%d", &numOpTest);
             printf("Minimum number of optional tests to pass: %d\n\n", numOpTest);
         } else printf("Optional tests are NOT allowed\n\n");
@@ -76,18 +76,25 @@ int main(){
             bool reqTest2=true;
             bool reqTest3=true;
             bool reqTest4=true;
+            int numLetters=0;
+            int numNumbers=0;
+            int numSymbols=0;
             int passLenght = strlen(password);
+            bool isPassPhrase = false;
+            int optionalPassed=0;
+            bool opTest1=true;
+            bool opTest2=true;
+            bool opTest3=true;
+            bool opTest4=true;
 
             if (passLenght > maxLimit){
                 reqTest1 = false;
                 failed+=1;
             }else passed+=1;
 
-            bool isPassPhrase = false;
             if (passLenght < minLimit){
                 reqTest2 = false;
                 failed+=1;
-                isPassPhrase = true;
             }else passed+=1;
             
             bool repeatedSeq = false;
@@ -106,9 +113,6 @@ int main(){
                 passed+=1;
             }
 
-            int numLetters=0;
-            int numNumbers=0;
-            int numSymbols=0;
             for (int w = 0; w<passLenght; w++){
                 char character= password[w];
                 int chValue = (int)character;
@@ -130,9 +134,61 @@ int main(){
             }else passed+=1;
 
 
+            if (allowPasPhrases == true){
+                if(passLenght >= minPhraselnght){
+                    isPassPhrase = true;
+                }
+            }
 
-            //optionaltestlocation
-            int optionalPassed=0;
+            if((allowOpTest == true)){
+                int numLowercase;
+                for (int w = 0; w<passLenght; w++){
+                    char character= password[w];
+                    int chValue = (int)character;
+                    if((chValue >= 97)&&(chValue <=122)){
+                        numLowercase+=1;
+                    }
+                }
+                if (numLowercase>=1){
+                    optionalPassed+=1;
+                    passed+=1;
+                }else{
+                    failed+=1;
+                    opTest1=false;
+                }
+
+                int numUppercase;
+                for (int w = 0; w<passLenght; w++){
+                    char character= password[w];
+                    int chValue = (int)character;
+                    if((chValue >= 65)&&(chValue <= 90)){
+                        numUppercase+=1;
+                    }
+                }
+                if (numUppercase>=1){
+                    optionalPassed+=1;
+                    passed+=1;
+                }else{
+                    failed+=1;
+                    opTest2=false;
+                }
+
+                if (numNumbers >= 2){
+                    optionalPassed+=1;
+                    passed+=1;
+                }else{
+                    failed+=1;
+                    opTest3=false;
+                }
+
+                if(numSymbols >= 2){
+                    optionalPassed+=1;
+                    passed+=1;
+                }else{
+                    failed+=1;
+                    opTest4=false;
+                }
+            }
 
 
 
@@ -140,7 +196,7 @@ int main(){
             printf("Passed Tests   :%d\n",passed);
 
 
-            if (reqTest1 == false){
+            if(reqTest1 == false){
                 printf("The password must be fewer than %d characters.\n",maxLimit);
             }
             if(reqTest2 == false){
@@ -152,17 +208,35 @@ int main(){
             if(reqTest4 == false){
                 printf("The password must contain letters, numbers, and symbols.\n");
             }
-
-            if (allowPasPhrases == true){
-                if(isPassPhrase == true){
-                    printf("Is a Pass phrase      :True\n");
-                }else printf("Is a Pass phrase      :False\n");
+            if(opTest1 == false){
+                printf("The password must contain at least one lowercase letter.\n");
+            }
+            if(opTest2 == false){
+                printf("The password must contain at least one uppercase letter.\n");
+            }
+            if(opTest3 == false){
+                printf("The password must contain at least two numbers.\n");
+            }
+            if(opTest4 == false){
+                printf("The password must contain at least two special characters.\n");
             }
             
-            if((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)){
-                printf("Strong?               :True\n");
-            }else printf("Strong?               :False\n");
+            if(isPassPhrase == true){
+                printf("Is a Pass phrase      :True\n");
+            }else printf("Is a Pass phrase      :False\n");
+
+            if((allowOpTest == true) && (isPassPhrase == false)){
+                if(((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)&&(reqTest4 == true))&&(optionalPassed>=numOpTest)){
+                    printf("Strong?               :True\n");
+                }else printf("Strong?               :False\n");
+            }else{
+                if((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)&&(reqTest4 == true)){
+                    printf("Strong?               :True\n");
+                }else printf("Strong?               :False\n"); 
+            }  
             
+
+
             if(allowOpTest != false){
                 printf("Total optional tests passed: %d\n\n",optionalPassed);
             }else printf("\n\n");
@@ -170,6 +244,7 @@ int main(){
 
             
         }
+        printf("\n");
         fclose(fileContents);
     }
     return(0);
