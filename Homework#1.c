@@ -162,8 +162,11 @@ int main(){
             if((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)){
                 printf("Strong?               :True\n");
             }else printf("Strong?               :False\n");
-
-            printf("Total optional tests passed: %d\n\n",optionalPassed);
+            
+            if(allowOpTest != false){
+                printf("Total optional tests passed: %d\n\n",optionalPassed);
+            }else printf("\n\n");
+            
 
             
         }
