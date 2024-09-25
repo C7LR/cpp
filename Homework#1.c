@@ -106,8 +106,34 @@ int main(){
                 passed+=1;
             }
 
+            int numLetters=0;
+            int numNumbers=0;
+            int numSymbols=0;
+            for (int w = 0; w<passLenght; w++){
+                char character= password[w];
+                int chValue = (int)character;
+                if(((chValue >= 65)&&(chValue <=90))||((chValue >= 97)&&(chValue <=122))){
+                    numLetters+=1;
+                }
+                if((chValue >= 48)&&(chValue<= 57)){
+                    numNumbers+=1;
+                }
+                if(((chValue >= 32)&&(chValue <= 47))||((chValue >= 58)&&(chValue <= 64))||
+                ((chValue >= 91)&&(chValue <= 96))||((chValue >= 123 )&&(chValue <= 126))){
+                    numSymbols+=1;
+                }
+                    
+            }
+            if((numLetters==0)||(numNumbers==0)||(numSymbols==0)){
+                reqTest4=false;
+                failed+=1;
+            }else passed+=1;
+
+
 
             //optionaltestlocation
+            int optionalPassed=0;
+
 
 
             printf("Failed Tests   :%d\n",failed);
@@ -124,16 +150,20 @@ int main(){
                 printf("The password may not contain sequence of three or more repeated characters.\n");
             }
             if(reqTest4 == false){
-                printf("The password must contain letters, numbers, and symbols.");
+                printf("The password must contain letters, numbers, and symbols.\n");
             }
 
-            if(isPassPhrase == true){
-                printf("Is a Pass phrase      :True\n");
-            }else printf("Is a Pass phrase      :False\n");
+            if (allowPasPhrases == true){
+                if(isPassPhrase == true){
+                    printf("Is a Pass phrase      :True\n");
+                }else printf("Is a Pass phrase      :False\n");
+            }
             
             if((reqTest1 == true)&&(reqTest2 == true)&&(reqTest3 == true)){
                 printf("Strong?               :True\n");
             }else printf("Strong?               :False\n");
+
+            printf("Total optional tests passed: %d\n\n",optionalPassed);
 
             
         }
