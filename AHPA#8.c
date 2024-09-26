@@ -6,6 +6,9 @@
 
 
 int main(){
+    //Defines a USFstudentinfo structure as well as initializes its member variables.
+    //Member variables include: a char name variable, an int age variable, a char Unumber variable,
+    //a float GPA variable. a bool onCampus variable, and a bool paidCurrentSemester variable.
     struct USFstudentinfo{
         char name[50];
         int age;
@@ -15,6 +18,13 @@ int main(){
         bool paidCurrentSemester;
     };
 
+    //Creates array of USFstudentinfo structures named USFstudentDatabases containing 2 structures.
+    //Then queries user on a student's name, age, Unumber, and GPA and assigns values given to repective
+    //member variables within first structure.
+    //The queries user if student lives on campus, and if student has paid for current semester.
+    //If user responds yes(y) to either, then the repective member value is assigned true.
+    //If user responds no(n) to either, then the respective member value is assigned false.
+    //If user respond is neither n or y then error message is printed and assign member false.
     struct USFstudentinfo USFstudentDatabase[2];
     printf("Enter student's name:\n");
     fgets(USFstudentDatabase[0].name, 40, stdin);
@@ -39,7 +49,8 @@ int main(){
         break;
 
     default:
-        "Error: Please enter (y)-yes or (n)-no.";
+        printf("Error: Please enter (y)-yes or (n)-no.\n");
+        USFstudentDatabase[0].onCampus = false;
         break;
     }
     getchar();
@@ -56,10 +67,16 @@ int main(){
         break;
 
     default:
-        "Error: Please enter (y)-yes or (n)-no.";
+        printf("Error: Please enter (y)-yes or (n)-no.\n");
+        USFstudentDatabase[0].paidCurrentSemester = false;
         break;
     }
 
+    //It will then ask user to name second student.
+    //After which it will the copy information in first USFstudentDatabase structure 
+    //to the second USFstudentDatabase structure.
+    //It will then proceed to alter the name of second structure with the second student name given.
+    //It will also swap the values of both onCampus and paidCurrentSemester member variables with their opposite values.
     getchar();
     USFstudentDatabase[1] = USFstudentDatabase[0];
     char student2Name[50];
@@ -74,16 +91,14 @@ int main(){
             USFstudentDatabase[1].name[x+1]='\0';           
         }
     }
-
     if(USFstudentDatabase[1].onCampus == true){
         USFstudentDatabase[1].onCampus = false;
     }else USFstudentDatabase[1].onCampus = true;
-
     if(USFstudentDatabase[1].paidCurrentSemester == true){
         USFstudentDatabase[1].paidCurrentSemester = false;
     }else USFstudentDatabase[1].paidCurrentSemester = true;
     
-
+    //It will then print information in both USFstudentDatabase structures.
     printf("\nStudent Name: %s", USFstudentDatabase[0].name);
     printf("Student age: %d\n", USFstudentDatabase[0].age);
     printf("Student Unumber: %s", USFstudentDatabase[0].Unumber);
@@ -94,7 +109,6 @@ int main(){
     if(USFstudentDatabase[0].paidCurrentSemester==true){
         printf("Student paid for current semester.\n\n");
     }else printf("Student has not paid for current semester.\n\n");
-
 
     printf("Student Name: %s", USFstudentDatabase[1].name);
     printf("Student age: %d\n", USFstudentDatabase[1].age);
@@ -107,8 +121,5 @@ int main(){
         printf("Student paid for current semester.\n\n");
     }else printf("Student has not paid for current semester.\n\n");
 
-
-
-    
     return(0);
 }
