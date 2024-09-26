@@ -19,7 +19,7 @@ int main(){
     };
 
     //Creates array of USFstudentinfo structures named USFstudentDatabases containing 2 structures.
-    //Then queries user on a student's name, age, Unumber, and GPA and assigns values given to repective
+    //Then queries user on a student's name, age, Unumber, and GPA then assigns values given to repective
     //member variables within first structure.
     //Then queries user if student lives on campus, and if student has paid for current semester.
     //If user responds yes(y) to either, then the respective member value is assigned true.
