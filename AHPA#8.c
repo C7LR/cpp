@@ -21,10 +21,10 @@ int main(){
     //Creates array of USFstudentinfo structures named USFstudentDatabases containing 2 structures.
     //Then queries user on a student's name, age, Unumber, and GPA and assigns values given to repective
     //member variables within first structure.
-    //The queries user if student lives on campus, and if student has paid for current semester.
-    //If user responds yes(y) to either, then the repective member value is assigned true.
+    //Then queries user if student lives on campus, and if student has paid for current semester.
+    //If user responds yes(y) to either, then the respective member value is assigned true.
     //If user responds no(n) to either, then the respective member value is assigned false.
-    //If user respond is neither n or y then error message is printed and assign member false.
+    //If user respond is neither n or y then error message is printed and assigns member with false.
     struct USFstudentinfo USFstudentDatabase[2];
     printf("Enter student's name:\n");
     fgets(USFstudentDatabase[0].name, 40, stdin);
@@ -73,9 +73,9 @@ int main(){
     }
 
     //It will then ask user to name second student.
-    //After which it will the copy information in first USFstudentDatabase structure 
+    //After which it will then copy information in first USFstudentDatabase structure 
     //to the second USFstudentDatabase structure.
-    //It will then proceed to alter the name of second structure with the second student name given.
+    //It will then proceed to alter the name member variable of the second structure with the second student name given.
     //It will also swap the values of both onCampus and paidCurrentSemester member variables with their opposite values.
     getchar();
     USFstudentDatabase[1] = USFstudentDatabase[0];
@@ -98,7 +98,7 @@ int main(){
         USFstudentDatabase[1].paidCurrentSemester = false;
     }else USFstudentDatabase[1].paidCurrentSemester = true;
     
-    //It will then print information in both USFstudentDatabase structures.
+    //It will then print the information in both USFstudentDatabase structures.
     printf("\nStudent Name: %s", USFstudentDatabase[0].name);
     printf("Student age: %d\n", USFstudentDatabase[0].age);
     printf("Student Unumber: %s", USFstudentDatabase[0].Unumber);
