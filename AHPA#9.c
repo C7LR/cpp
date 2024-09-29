@@ -37,33 +37,33 @@ int carArrived(){
 Initializes refillRequired function.
 Function takes an int pump value that represents specific pump in need of refuiling.
 Depending on value entered function will refill specific pump#Tank to its specific max capacity.
-Will aslo print message stating request was heard as well as notify whne process of refuiling 
+Will aslo print message stating request was heard as well as notify when process of refuiling 
 has began and been completed.
 */
 int refillRequired(int pump){
     if(pump == 1){
-        printf("Request suceessfull. Pump 1 tank is being refueled.\n");
+        printf("Request successful. Pump 1 tank is being refueled.\n");
         while(pump1Tank<100){
             pump1Tank+=1;
         }
         printf("Pump1 tank has been refuled.\n\n");
     }
     if(pump == 2){
-        printf("Request sucessfull. Pump 2 tank is being refueled.\n");
+        printf("Request successful. Pump 2 tank is being refueled.\n");
         while(pump2Tank<100){
             pump2Tank+=1;
         }
         printf("Pump 2 tank has been refuled.\n\n");
     }
     if(pump == 3){
-        printf("Request suceessfull. Pump 3 tank is being refueled.\n");
+        printf("Request successful. Pump 3 tank is being refueled.\n");
         while(pump3Tank<100){
             pump3Tank+=1;
         }
         printf("Pump 3 tank has been refuled.\n\n");
     }
     if(pump == 4){
-        printf("Request suceessfull. Pump 4 tank is being refueled.\n");
+        printf("Request successful. Pump 4 tank is being refueled.\n");
         while(pump4Tank<100){
             pump4Tank+=1;
         }
@@ -85,11 +85,11 @@ int main(){
 
     /*
     Initializes the int hoursPassed variables.
-    Then creates a while loop the continues till hoursPassed is equal or greater to
+    Then creates a while loop that continues till hoursPassed is equal or greater to
     gasStationHours.
     In each loop, a switch will call on the carArrived function and be given a speific value.
     Depeding on value(which ranges from 1-4) case, the pump#Tank related to that specific number value
-    will lose 10 gallons and it willprint message regarding how much gas in gallons is remaning in specific pump#Tank.
+    will lose 10 gallons and it will print message regarding how much gas in gallons is remaning in specific pump#Tank.
     If value that is not 1-4 is given to switch, default will trigger error message.
     If at any point a specific pump#Tank has less than 20 gallons of fuel remaining,
     it will print message requesting refuiling for specific pump#Tank.
