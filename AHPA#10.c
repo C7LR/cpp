@@ -3,53 +3,66 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+//Initializes the int theArray variable and assigns it's values.
+int theArray[10]={0,1,1,1,1,1,1,1,1,1};
 
-int arraySum(int array[], int arrayLngth){
+/*
+Name: theArraySum
+Purpose: Store the sum of theArray values in within [0] index of theArray.
+Has no parameter.
+Has no return value.
+It only alters theArraySum.
+*/
+void theArraySum(){
     int arraySum = 0;
-    for (int i=1; i<arrayLngth; ++i){
-        arraySum+=array[i];
+    for (int i=1; i<10; ++i){
+        arraySum+=theArray[i];
     }
-    return arraySum;
+    theArray[0]=arraySum;
 }
 
-void arrayPrinter(int array[], int arrayLnght){
-    /**/
-    for(int i=0; i<arrayLnght; ++i){
-        printf("%d ",array[i]);
+/*
+Name: theArrayPrinter
+Purpose: Calls on theArraySum() function and prints theArray values.
+Has no parameter.
+Has no return value.
+It only prints the values of the array.
+*/
+void theArrayPrinter(){
+    theArraySum();
+    for(int i=0; i<10; ++i){
+        printf("%d ",theArray[i]);
     }
     printf("\n\n");
 }
 
-void updateArray(int array[], int arrayLnght){
-    /**/
-    int userInput1, userInput2, userInput3;
-    printf("Enter first value: ");
-    scanf("%d",&userInput1);
-    printf("Enter second value: ");
-    scanf("%d",&userInput2);
-    printf("Enter third value: ");
-    scanf("%d",&userInput3);
-    if (arrayLnght>=10){
-        int *update = &array[3];
-        *update = userInput1;
-        update = &array[6];
-        *update = userInput2;
-        update = &array[9];
-        *update = userInput3;
-        update = &array[0];
-        *update=arraySum(array,arrayLnght);
-    }
-    printf("Updated array contents:\n");
-    arrayPrinter(array, arrayLnght);
+/*
+Name: updateArray
+Purpose: Alters the array through use of pointers to add the user values 101, 63, 21 into indexes, 3,6, and 9
+of theArray. Once finished it calls on theArrayPrinter function.
+Has no parameter.
+Has no return value.
+It only alters theArraySum and prints it values.
+*/
+void updateArray(){
+    int userInput1 = 101, userInput2 = 63, userInput3 = 21;
+    int *update = &theArray[3];
+    *update = userInput1;
+    update = &theArray[6];
+    *update = userInput2;
+    update = &theArray[9];
+    *update = userInput3;
+    theArrayPrinter();
 }
 
 int main(){
-    /**/
-    int theArray[10]={0,1,1,1,1,1,1,1,1,1};
-    theArray[0]=arraySum(theArray,10);
+    /*
+    Prints the unaltered array(theArray) via function call to the theArrayPrinter() function.
+    Then prints the altered array via function call to the updateArray() function with its argument being the value 10.
+    */
     printf("Original array contents:\n");
-    arrayPrinter(theArray,10);
-    updateArray(theArray,10);
-
+    theArrayPrinter();
+    printf("Updated array contents:\n");
+    updateArray();
     return 0;
 }
