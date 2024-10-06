@@ -24,9 +24,7 @@ int main(){
 
     printf("Scores before changing:\n");
     gradePrinter(finalExam,15);
-    
     switcher(finalExam,15);
-
     printf("Scores after changing:\n");
     gradePrinter(finalExam,15);
 
