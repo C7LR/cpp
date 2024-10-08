@@ -34,7 +34,5 @@ int main(){
     //testPtr = 5;
     printf("%d\n",testPtr);
 
-
-
     return 0;
 }
