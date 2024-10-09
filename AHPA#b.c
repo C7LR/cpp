@@ -19,7 +19,7 @@ int main(){
     After which, it will then proceed to classify each of the movies based on their titleLenght,
     and store the sum their respective average income(to find which titleLenght has produced the most income) in the
     movieLenght array.
-    It will then print the contents of the movieLenght array next to the speicfic titleLenght they represent.
+    It will then print the contents of the movieLenght array next to the specific titleLenght they represent.
     It will also print which titleLenght has earned th emost income.
     Finally it prints the starWarsMovies array in a list format. 
     */
