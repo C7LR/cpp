@@ -23,6 +23,7 @@ int parityCheck(char *datafile, int fileNameLenght){
     
     int lineCounter=1;
     char line[50];
+    int errorCounter=0;
     while(fgets(line, 40, data)!=NULL){
         printf("Transmission line number: %d\n", lineCounter++);
         
@@ -75,6 +76,10 @@ int parityCheck(char *datafile, int fileNameLenght){
         }
         printf("\n");
     }
+    if(errorCounter>0){
+        printf("An error has been found\n\n");
+    }else{printf("No errors found\n\n");}
+
     fclose(data);
     printf("\n");
 }
@@ -89,36 +94,17 @@ int checkSum(char *datafile, int fileNameLenght){
 
     int lineCounter=1;
     char line[50];
+    int errorCounter=0;
     while(fgets(line, 40, data)!=NULL){
         printf("Transmission line number: %d\n", lineCounter++);
         
         int bytes[9];
-        int binaryBytes[9][8]={{0,0,0,0,0,0,0,0}};
         sscanf(line,"%d %d %d %d %d %d %d %d %d",&bytes[0],&bytes[1],&bytes[2],
         &bytes[3], &bytes[4],&bytes[5],&bytes[6],&bytes[7],&bytes[8]);
         printf("Data Stream:\n");
         printf("%d %d %d %d %d %d %d %d\n",bytes[0],bytes[1],bytes[2],
         bytes[3], bytes[4],bytes[5],bytes[6],bytes[7]);
         printf("Checksum: %d\n\n",bytes[8]);
-
-        for(int b=0; b<9; b++){
-            int byte = bytes[b];
-            int binary[8]={0,0,0,0,0,0,0,0};
-            int bit = 7;
-            while(byte != 0){
-                if(byte%2==1){
-                    binary[bit]=1;
-                }
-                byte/=2;
-                byte = (int)byte;
-                bit-=1;
-            }
-            int copy = 0;
-            while(copy<8){
-                binaryBytes[b][copy] = binary[copy];
-                copy+=1;
-            }
-        }
 
         unsigned int dataSum=0; 
         for(int b=0; b<8; b++){
@@ -136,9 +122,13 @@ int checkSum(char *datafile, int fileNameLenght){
 
         if(sumCompliment == 0){
             printf("Checksum: No errors in transmission \n\n");
-        }else{printf("Checksum: Errors found in transmission \n\n");}
-
+        }else{printf("Checksum: Errors found in transmission \n\n");
+        errorCounter+=1;
+        }
     }
+    if(errorCounter>0){
+        printf("An error has been found\n\n");
+    }else{printf("No errors found\n\n");}
     fclose(data);
 }
 
@@ -148,7 +138,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
     if(data == NULL){
         printf("Error in opening file");
         return 1;
-    } else {printf("2D Parity Check Processing...\n");}
+    } else {printf("2D Parity Check Processing...\n\n");}
 
     
 
