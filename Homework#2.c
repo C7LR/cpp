@@ -70,38 +70,89 @@ int parityCheck(char *datafile, int fileNameLenght){
             if(((counter%2==0)&&(parityBit==0))||((counter%2==1)&&(parityBit==1))){
                 printf("No error in transmission byte: %d\n", bytes[b]);
             }else{printf("Error in transmission byte: %d\n", bytes[b]);}
-
+            
             counter = 0;
         }
         printf("\n");
-   
     }
     fclose(data);
     printf("\n");
-
 }
 
 int checkSum(char *datafile, int fileNameLenght){
-    FILE*bytes;
-    bytes = fopen(datafile, "r");
-    if(bytes == NULL){
+    FILE*data;
+    data = fopen(datafile, "r");
+    if(data == NULL){
         printf("Error in opening file");
         return 1;
-    } else {printf("Checksum Processing...\n");}
+    } else {printf("Checksum Processing...\n\n");}
 
+    int lineCounter=1;
+    char line[50];
+    while(fgets(line, 40, data)!=NULL){
+        printf("Transmission line number: %d\n", lineCounter++);
+        
+        int bytes[9];
+        int binaryBytes[9][8]={{0,0,0,0,0,0,0,0}};
+        sscanf(line,"%d %d %d %d %d %d %d %d %d",&bytes[0],&bytes[1],&bytes[2],
+        &bytes[3], &bytes[4],&bytes[5],&bytes[6],&bytes[7],&bytes[8]);
+        printf("Data Stream:\n");
+        printf("%d %d %d %d %d %d %d %d\n",bytes[0],bytes[1],bytes[2],
+        bytes[3], bytes[4],bytes[5],bytes[6],bytes[7]);
+        printf("Checksum: %d\n\n",bytes[8]);
 
-    fclose(bytes);
+        for(int b=0; b<9; b++){
+            int byte = bytes[b];
+            int binary[8]={0,0,0,0,0,0,0,0};
+            int bit = 7;
+            while(byte != 0){
+                if(byte%2==1){
+                    binary[bit]=1;
+                }
+                byte/=2;
+                byte = (int)byte;
+                bit-=1;
+            }
+            int copy = 0;
+            while(copy<8){
+                binaryBytes[b][copy] = binary[copy];
+                copy+=1;
+            }
+        }
+
+        unsigned int dataSum=0; 
+        for(int b=0; b<8; b++){
+            dataSum+=bytes[b];
+        }
+        printf("Sum of data items: %d\n", dataSum);
+
+        dataSum += bytes[8];
+        printf("Sum after adding checksum: %d\n", dataSum);
+
+        unsigned int sumCompliment;
+        sumCompliment = ~dataSum;
+        sumCompliment %= 256;
+        printf("Sum after compliment: %d\n", sumCompliment);
+
+        if(sumCompliment == 0){
+            printf("Checksum: No errors in transmission \n\n");
+        }else{printf("Checksum: Errors found in transmission \n\n");}
+
+    }
+    fclose(data);
 }
 
 int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
-    FILE*bytes;
-    bytes = fopen(datafile, "r");
-    if(bytes == NULL){
+    FILE*data;
+    data = fopen(datafile, "r");
+    if(data == NULL){
         printf("Error in opening file");
         return 1;
     } else {printf("2D Parity Check Processing...\n");}
 
-    fclose(bytes);
+    
+
+    fclose(data);
 }
 
 
@@ -119,11 +170,11 @@ int main(){
         if(strstr(dataFiles[d],"Parity")){
             if(strstr(dataFiles[d], "2D Parity")){
                 twoDimensionalParityCheck(dataFiles[d], nameLenght);
-            } else{parityCheck(dataFiles[d], nameLenght);}
+            }//else{parityCheck(dataFiles[d], nameLenght);}
 
         }
         if(strstr(dataFiles[d],"Checksum")){
-            checkSum(dataFiles[d], nameLenght);
+            //checkSum(dataFiles[d], nameLenght);
         }
     }
     return 0;
