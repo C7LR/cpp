@@ -19,24 +19,26 @@ int parityCheck(char *datafile, int fileNameLenght){
     if(data == NULL){
         printf("Error in opening file");
         return 1;
-    } else {printf("Parity Check Processing...\n");}
+    } else {printf("Parity Check Processing...\n\n");}
     
     int lineCounter=1;
     char line[50];
     while(fgets(line, 40, data)!=NULL){
-        printf("Transmission line number: %d\n\n", lineCounter++);
+        printf("Transmission line number: %d\n", lineCounter++);
         
         int bytes[9];
         int binaryBytes[9][8]={{0,0,0,0,0,0,0,0}};
         sscanf(line,"%d %d %d %d %d %d %d %d %d",&bytes[0],&bytes[1],&bytes[2],
         &bytes[3], &bytes[4],&bytes[5],&bytes[6],&bytes[7],&bytes[8]);
-        
+        printf("Data Stream:\n");
+        printf("%d %d %d %d %d %d %d %d\n",bytes[0],bytes[1],bytes[2],
+        bytes[3], bytes[4],bytes[5],bytes[6],bytes[7]);
+        printf("Parity byte: %d\n\n",bytes[8]);
+
         for(int b=0; b<9; b++){
             int byte = bytes[b];
             int binary[8]={0,0,0,0,0,0,0,0};
             int bit = 7;
-            int remainder;
-            
             while(byte != 0){
                 if(byte%2==1){
                     binary[bit]=1;
@@ -45,34 +47,38 @@ int parityCheck(char *datafile, int fileNameLenght){
                 byte = (int)byte;
                 bit-=1;
             }
-            for(int b=0; b<8; b++){
-                printf("%d",binary[b]);
-            }
-            printf(" ");
             int copy = 0;
             while(copy<8){
                 binaryBytes[b][copy] = binary[copy];
                 copy+=1;
             }
-            
-            
-            
+        }
 
+        bool evenParityCheck = true;
+        bool oddParityCheck = false;
+        for(int b=0; b<8; b++){
+            int counter = 0;
+            int parityBit = 0;
+            for(int f=0; f<8; f++){
+                if(binaryBytes[b][f]==1){
+                    counter+=1;
+                }
+            }
+            parityBit = binaryBytes[8][b];
 
+            //Even parity check
+            if(((counter%2==0)&&(parityBit==0))||((counter%2==1)&&(parityBit==1))){
+                printf("No error in transmission byte: %d\n", bytes[b]);
+            }else{printf("Error in transmission byte: %d\n", bytes[b]);}
+
+            counter = 0;
         }
         printf("\n");
-        printf("\n%d%d%d%d%d%d%d%d\n",binaryBytes[0][0], binaryBytes[0][1],binaryBytes[0][2],
-        binaryBytes[0][3], binaryBytes[0][4], binaryBytes[0][5], binaryBytes[0][6], binaryBytes[0][7]);
-
-        
+   
     }
-    
-    
-    
-    
-    
-
     fclose(data);
+    printf("\n");
+
 }
 
 int checkSum(char *datafile, int fileNameLenght){
