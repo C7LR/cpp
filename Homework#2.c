@@ -12,6 +12,15 @@
 #include<string.h>
 #include<math.h>
 
+/*
+-parityCheck function:
+Function recieves a datafile pointer and filenamelenght as parameters.
+Uses parameters to access datafile and initate an even parityCheck.
+Does so by isolating parity and rest of the bits in data row then compares them.
+If the sum  of 1s that comprise a regular data string is even and the paring string is of value 0, or
+if the sum of 1s is odd and the paring string is of value 1, then bits pass checks.
+Else bits fail and a message will appear indicating error intransmission of data has occured.
+*/
 
 int parityCheck(char *datafile, int fileNameLenght){
     FILE*data;
@@ -85,6 +94,15 @@ int parityCheck(char *datafile, int fileNameLenght){
     printf("\n");
 }
 
+/*
+-checkSum function:
+Function recieves a datafile pointer and filenamelenght as parameters.
+Uses parameters to access datafile and initate an sumCheck.
+It sums the all values of a data row then adds them to the checkSum byte.
+Then the byte is complimented.
+If sum after being complimented is 0 for each data row, datafile pass checks.
+Else a message will be printed indicating an error has been found.
+*/
 int checkSum(char *datafile, int fileNameLenght){
     FILE*data;
     data = fopen(datafile, "r");
@@ -133,6 +151,19 @@ int checkSum(char *datafile, int fileNameLenght){
     fclose(data);
 }
 
+
+/*
+-twoDimensionalParityCheck function:
+Function recieves a datafile pointer and filenamelenght as parameters.
+Uses parameters to access datafile and initate a 2D parity check.
+Code attempts to isolate two parity bits from rest of bits present in data block.
+Then repeats process done in parityCheck function but in two methods.
+Method one checks each of the rows using a bit corresponding with the horizontall parity.
+Method two checks each collumn using a bit corresponding with the vertical parity.
+It will analyse each the bits of each row and collumn with repective parity bit.
+If no error are found within any of the methods, a message will printed saying no errors have been found.
+Else message saying errors have been found will be printed instead.
+*/
 int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
     FILE*data;
     data = fopen(datafile, "r");
@@ -213,8 +244,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", verticalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", verticalBytes[b]); 
+            }else{ 
             errorVCounter+=1;
             }
             counter = 0;
@@ -268,8 +298,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", horizontalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", horizontalBytes[b]); 
+            }else{ 
             errorHCounter+=1;
             }
             counter = 0;
@@ -349,8 +378,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", verticalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", verticalBytes[b]); 
+            }else{ 
             errorVCounter+=1;
             }
             counter = 0;
@@ -403,8 +431,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", horizontalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", horizontalBytes[b]); 
+            }else{
             errorHCounter+=1;
             }
             counter = 0;
@@ -484,8 +511,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", verticalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", verticalBytes[b]); 
+            }else{ 
             errorVCounter+=1;
             }
             counter = 0;
@@ -538,8 +564,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", horizontalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", horizontalBytes[b]); 
+            }else{; 
             errorHCounter+=1;
             }
             counter = 0;
@@ -619,8 +644,8 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", verticalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", verticalBytes[b]); 
+                
+            }else{ 
             errorVCounter+=1;
             }
             counter = 0;
@@ -673,8 +698,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", horizontalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", horizontalBytes[b]); 
+            }else{ 
             errorHCounter+=1;
             }
             counter = 0;
@@ -752,8 +776,8 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", verticalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", verticalBytes[b]); 
+                
+            }else{ 
             errorVCounter+=1;
             }
             counter = 0;
@@ -806,8 +830,7 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
             //odd parity check
             if(((counter%2==1)&&(parityBit==0))||((counter%2==0)&&(parityBit==1))){
-                printf("No error in transmission byte: %d\n", horizontalBytes[b]);
-            }else{printf("Error in transmission byte: %d\n", horizontalBytes[b]); 
+            }else{ 
             errorHCounter+=1;
             }
             counter = 0;
@@ -828,6 +851,10 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 
 
 int main(){
+    /*
+    Program contains pointer char array that contains the names of each of the files.
+    It will then measure the lenght of the names and make a function call with the datafiles name, and namelenght.
+    */
     char *dataFiles[] = {
     "White House Transmission Data - Parity.txt",
     "White House Transmission Data - Checksum.txt",
@@ -838,7 +865,7 @@ int main(){
     nameLenght = strlen(dataFiles[1]);
     checkSum(dataFiles[1], nameLenght);
     nameLenght = strlen(dataFiles[2]);
-    //twoDimensionalParityCheck(dataFiles[2], nameLenght);
+    twoDimensionalParityCheck(dataFiles[2], nameLenght); 
     
     
     return 0;
