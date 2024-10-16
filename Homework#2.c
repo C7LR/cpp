@@ -151,12 +151,45 @@ int checkSum(char *datafile, int fileNameLenght){
     fclose(data);
 }
 
+/*
+Counts the number of Data Blocks in given datafile for 2D parity.
+Prints number of bocks found as well as returns the number.
+*/
+int blockCounter(char *datafile, int fileNameLenght){
+    FILE*data;
+    data = fopen(datafile, "r");
+    if(data == NULL){
+        printf("Error in opening file");
+        return 1;
+    }
+
+    int numBlock=0;
+    int numStreams=0;
+    char line[90];
+    int rowCounter=0;
+    while(fgets(line, 80, data)!=NULL){
+        if(rowCounter >= 8){
+            rowCounter=0;
+            break;
+        }
+        if(line[0] == '\n'){
+            continue;
+        }
+        numStreams+=1;
+    }
+    numBlock = numStreams/8;
+
+    printf("%d of Data Blocks found\n\n",numBlock);
+    return numBlock;
+    fclose(data);
+}
+
 
 /*
 -twoDimensionalParityCheck function:
 Function recieves a datafile pointer and filenamelenght as parameters.
 Uses parameters to access datafile and initate a 2D parity check.
-Code attempts to isolate two parity bits from rest of bits present in data block.
+Code isolates the two parity bits from rest of bits present in data block.
 Then repeats process done in parityCheck function but in two methods.
 Method one checks each of the rows using a bit corresponding with the horizontall parity.
 Method two checks each collumn using a bit corresponding with the vertical parity.
@@ -170,21 +203,22 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
     if(data == NULL){
         printf("Error in opening file");
         return 1;
-    } else {printf("2D Parity Check Processing...\n\n");}
+    } else {printf("2D Parity Check Processing...\n");}
     int lineCounter=1;
     char line[90];
-    int errorVCounter=0;
-    int errorHCounter=0;
+    int errorVCounter=0;//counts number of errors found in vertical transmissions.
+    int errorHCounter=0;//counts number of error found in horizontal transmissions.
     int dataStreams[8][10];
     int verticalBytes[8];
     int horizontalBytes[8];
     int verticalBinaryBytes[9][8];
     int horizontalBinaryBytes[9][8];
     int rowCounter=0;
-    int block=5;
+    int block=blockCounter(datafile,fileNameLenght);
 
-    printf("Processing Transmission Block: %d\n", lineCounter++);
     while(block>0){
+        printf("Processing Transmission Block: %d\n", lineCounter++);
+        //Collects Data Block and places it into 2D-array.
         while(fgets(line, 80, data)!=NULL){
             if(rowCounter >= 8){
                 rowCounter=0;
@@ -326,19 +360,28 @@ int twoDimensionalParityCheck(char *datafile, int fileNameLenght){
 int main(){
     /*
     Program contains pointer char array that contains the names of each of the files.
-    It will then measure the lenght of the names and make a function call with the datafiles name, and namelenght.
+    It will then measure the lenght of the names in array then it will find key words in each of the file names 
+    and make a function call with the function that corresponds to the key word in the file name.
     */
     char *dataFiles[] = {
     "White House Transmission Data - Parity.txt",
     "White House Transmission Data - Checksum.txt",
     "White House Transmission Data - 2D Parity.txt"};
 
-    int nameLenght = strlen(dataFiles[0]);
-    parityCheck(dataFiles[0], nameLenght);
-    nameLenght = strlen(dataFiles[1]);
-    checkSum(dataFiles[1], nameLenght);
-    nameLenght = strlen(dataFiles[2]);
-    twoDimensionalParityCheck(dataFiles[2], nameLenght); 
+    for(int f=0; f<3; f++){
+        int nameLenght = strlen(dataFiles[f]);
+        if(strstr(dataFiles[f],"Parity")!=false){
+            if(strstr(dataFiles[f],"2D Parity")!=false){
+                twoDimensionalParityCheck(dataFiles[2], nameLenght); 
+            }else{parityCheck(dataFiles[f], nameLenght);}
+        }
+        if(strstr(dataFiles[f],"Checksum")!=false){
+            checkSum(dataFiles[f], nameLenght);
+        }
+    }
+
+    
+    
     
     
     return 0;
